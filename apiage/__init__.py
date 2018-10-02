@@ -10,7 +10,8 @@ def get(endpoint,
         results_key='results',
         sleep=60,   # seconds [sleep when exception, e.g., 60]
         pause=None, # seconds [pause between requests: e.g., 1]
-        proxies=None):
+        proxies=None,
+        debug=False):
     '''
     e.g., get('')
     '''
@@ -20,6 +21,8 @@ def get(endpoint,
     while True:
 
         if endpoint:
+            if debug:
+                print(endpoint)
             try:
                 if proxies:
                     data = requests.get(endpoint, proxies=proxies).json()
@@ -35,8 +38,10 @@ def get(endpoint,
                 else:
                     s = sleep
 
-                # logging.log(20, 'Sleeping for {} seconds'.format(s))
-                print('Sleeping for {} seconds'.format(s))
+                logging.log(20, 'Sleeping for {} seconds'.format(s))
+
+                if debug:
+                    print('Sleeping for {} seconds'.format(s))
 
                 time.sleep(s)
         else:
