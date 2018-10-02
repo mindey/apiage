@@ -1,5 +1,6 @@
 import requests
 from progress.bar import Bar
+import logging
 import time
 
 def get(endpoint,
@@ -31,7 +32,7 @@ def get(endpoint,
                 else:
                     s = sleep
 
-                logging.log('Sleeping for {} seconds'.format(s))
+                logging.log(20, 'Sleeping for {} seconds'.format(s))
 
                 time.sleep(s)
         else:
