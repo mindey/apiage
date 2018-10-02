@@ -60,7 +60,10 @@ def get(endpoint,
                 if 'bar' not in locals():
 
                     if callable(count_key):
-                        chunk = len(results_key(data))
+                        if callable(results_key):
+                            chunk = len(results_key(data))
+                        else:
+                            chunk = len(data.get(results_key))
                         bar = Bar('API Pages:', max=round(count_key(data)/chunk))
                     elif count_key in data.keys():
                         chunk = len(data.get(results_key))
