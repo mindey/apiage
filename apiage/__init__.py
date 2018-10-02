@@ -7,7 +7,7 @@ def get(endpoint,
         next_key='next',
         count_key='count',
         results_key='results',
-        sleep_seconds=60,
+        sleep=60,
         proxies=None):
     '''
     e.g., get('')
@@ -24,8 +24,15 @@ def get(endpoint,
                 else:
                     data = requests.get(endpoint).json()
             except:
-                logging.log('Sleeping for {} seconds'.format(sleep_seconds))
-                time.sleep(sleep_seconds)
+
+                if callable(sleep):
+                    s = sleep()
+                else:
+                    s = sleep
+
+                logging.log('Sleeping for {} seconds'.format(s))
+
+                time.sleep(s)
         else:
             break
 
