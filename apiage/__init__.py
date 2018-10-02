@@ -7,7 +7,8 @@ def get(endpoint,
         next_key='next',
         count_key='count',
         results_key='results',
-        sleep=60,
+        sleep=60,   # seconds [sleep when exception, e.g., 60]
+        pause=None, # seconds [pause between requests: e.g., 1]
         proxies=None):
     '''
     e.g., get('')
@@ -36,6 +37,13 @@ def get(endpoint,
         else:
             break
 
+        if callable(pause):
+            t = pause()
+        else:
+            t = pause
+
+        if t:
+            time.sleep(t)
 
         # count_key
         if callable(count_key):
