@@ -11,12 +11,15 @@ def get(endpoint,
         sleep=60,   # seconds [sleep when exception, e.g., 60]
         pause=None, # seconds [pause between requests: e.g., 1]
         proxies=None,
-        debug=False):
+        debug=False,
+        pages=None): # count of pages to return, e.g., 1 to return just first page
     '''
     e.g., get('')
     '''
 
     results = []
+
+    count = 0
 
     while True:
 
@@ -94,6 +97,12 @@ def get(endpoint,
 
             if t:
                 time.sleep(t)
+
+            count += 1
+
+            if pages:
+                if count == pages:
+                    break
 
     if not silent:
         bar.finish()
