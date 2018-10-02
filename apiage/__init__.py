@@ -12,7 +12,7 @@ def get(endpoint,
         pause=None, # seconds [pause between requests: e.g., 1]
         proxies=None,
         debug=False,
-        pages=None): # count of pages to return, e.g., 1 to return just first page
+        limit=None): # count of pages to return, e.g., 1 to return just first page
     '''
     e.g., get('')
     '''
@@ -100,7 +100,7 @@ def get(endpoint,
 
             count += 1
 
-            if pages:
+            if limit:
                 if count == pages:
                     break
 
