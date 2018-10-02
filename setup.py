@@ -6,7 +6,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='apiage',
-    version='0.0.1',
+    version='0.0.2',
     description='Gets pages from API.',
     long_description=long_description,
     long_description_content_type='text/markdown',
