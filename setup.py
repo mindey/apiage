@@ -6,7 +6,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name='apiage',
-    version='0.0.9',
+    version='0.1.0',
     description='Gets pages from API.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -15,7 +15,7 @@ setup(
     author_email='mindey@qq.com',
     license='UNDEFINED',
     packages = find_packages(exclude=['docs', 'tests*']),
-    install_requires=["requests", "progress"],
+    install_requires=["requests", "progress", "furl"],
     extras_require = {
         'test': ['coverage', 'pytest', 'pytest-cov'],
     },

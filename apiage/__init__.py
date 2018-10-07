@@ -2,6 +2,7 @@ import requests
 from progress.bar import Bar
 import logging
 import time
+import furl
 
 def get(endpoint,
         silent=False,
@@ -12,7 +13,9 @@ def get(endpoint,
         pause=None, # seconds [pause between requests: e.g., 1]
         proxies=None,
         debug=False,
-        limit=None): # count of pages to return, e.g., 1 to return just first page
+        limit=None, # count of pages to return, e.g., 1 to return just first page
+        remove_keys_in_url=[],  # remove keys from urls included
+        include_query_url=True): # include query urls.
     '''
     e.g., get('')
     '''
@@ -76,9 +79,18 @@ def get(endpoint,
 
             if callable(results_key):
                 if results_key(data):
-                    results.extend(results_key(data))
+
+                    if include_query_url:
+                        results.extend([dict(result, **{'-': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in results_key(data)])
+                    else:
+                        results.extend(results_key(data))
+
             elif results_key in data.keys():
-                results.extend(data[results_key])
+
+                if include_query_url:
+                    results.extend([dict(result, **{'-': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in data[results_key]])
+                else:
+                    results.extend(data[results_key])
 
             if callable(next_key):
                 endpoint = next_key(data)
