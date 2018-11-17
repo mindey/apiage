@@ -122,7 +122,7 @@ def gen(endpoint,
 
             # stop if limit has been reached
             if limit:
-                if count == pages:
+                if count == limit:
                     break
 
             # generate instead
