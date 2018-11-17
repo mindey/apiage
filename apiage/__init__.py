@@ -3,8 +3,13 @@ from progress.bar import Bar
 import logging
 import time
 import furl
+from goto import with_goto
 
-def get(endpoint,
+def get(*args, **kwargs):
+    return list(gen(*args, **kwargs))
+
+@with_goto
+def gen(endpoint,
         silent=False,
         next_key='next',
         count_key='count',
@@ -54,12 +59,13 @@ def get(endpoint,
             break
 
         if data:
-            # count_key
+
+            # return results, if there is count_key
             if callable(count_key):
                 if not count_key(data):
-                    return results
+                    goto .end
             elif not data.get(count_key):
-                return results
+                goto .end
 
             if not silent:
 
@@ -77,6 +83,7 @@ def get(endpoint,
 
                 bar.next()
 
+            # if we have results, extend the results variable.
             if callable(results_key):
                 if results_key(data):
 
@@ -92,6 +99,7 @@ def get(endpoint,
                 else:
                     results.extend(data[results_key])
 
+            # if there is url for next result set, set it as endpoint.
             if callable(next_key):
                 endpoint = next_key(data)
             elif next_key not in data.keys():
@@ -101,7 +109,7 @@ def get(endpoint,
             else:
                 endpoint = data[next_key]
 
-            # Pause
+            # pause in between requests
             if callable(pause):
                 t = pause()
             else:
@@ -112,11 +120,20 @@ def get(endpoint,
 
             count += 1
 
+            # stop if limit has been reached
             if limit:
                 if count == pages:
                     break
 
+            # generate instead
+            for item in results:
+                yield item
+            del results
+            results = []
+
     if not silent:
         bar.finish()
 
-    return results
+    label .end
+    for item in results:
+        yield item

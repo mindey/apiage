@@ -1,0 +1,5 @@
+.env/
+.pytest_cache/
+apiage.egg-info/
+dist/
+*__pycache__*
