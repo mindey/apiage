@@ -88,14 +88,14 @@ def gen(endpoint,
                 if results_key(data):
 
                     if include_query_url:
-                        results.extend([dict(result, **{'-': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in results_key(data)])
+                        results.extend([dict(result, **{'--': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in results_key(data)])
                     else:
                         results.extend(results_key(data))
 
             elif results_key in data.keys():
 
                 if include_query_url:
-                    results.extend([dict(result, **{'-': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in data[results_key]])
+                    results.extend([dict(result, **{'--': furl.furl(endpoint).remove(remove_keys_in_url).url}) for result in data[results_key]])
                 else:
                     results.extend(data[results_key])
 
