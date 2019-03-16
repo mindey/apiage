@@ -20,7 +20,8 @@ def gen(endpoint,
         debug=False,
         limit=None, # count of pages to return, e.g., 1 to return just first page
         remove_keys_in_url=[],  # remove keys from urls included
-        include_query_url=True): # include query urls.
+        include_query_url=True, # include query urls.
+        method='get'): # post or get
     '''
     e.g., get('')
     '''
@@ -36,10 +37,11 @@ def gen(endpoint,
                 print(endpoint)
             try:
                 if proxies:
-                    data = requests.get(endpoint, proxies=proxies).json()
+                    data = getattr(requests, method)(endpoint, proxies=proxies).json()
                 else:
-                    data = requests.get(endpoint).json()
-            except:
+                    data = getattr(requests, method)(endpoint).json()
+            except Exception as e:
+                print(e, endpoint)
 
                 data = None
 
